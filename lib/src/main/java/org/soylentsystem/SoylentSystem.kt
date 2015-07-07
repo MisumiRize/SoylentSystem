@@ -1,7 +1,6 @@
 package org.soylentsystem
 
 import android.content.Context
-import org.soylentsystem.lib.realm.Transaction
 
 class SoylentSystem {
 
