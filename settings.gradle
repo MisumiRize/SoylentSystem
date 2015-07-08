@@ -1,1 +1,1 @@
-include ':lib', ':RealmApp', ':ORMLiteApp'
+include ':lib', ':RealmApp', ':ORMLiteApp', ':SQLiteApp'

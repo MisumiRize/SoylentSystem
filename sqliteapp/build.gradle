@@ -14,6 +14,7 @@ apply plugin: 'kotlin-android'
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 android {
@@ -21,9 +22,11 @@ android {
     buildToolsVersion '22.0.1'
 
     defaultConfig {
-        applicationId 'org.soylentsystem.realmapp'
+        applicationId 'org.soylentsystem.sqliteapp'
         minSdkVersion 9
         targetSdkVersion 22
+        versionCode 1
+        versionName '1.0'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
@@ -46,7 +49,6 @@ android {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'io.realm:realm-android:0.81.1'
     androidTestCompile project(':lib')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile 'com.android.support.test:rules:0.3'

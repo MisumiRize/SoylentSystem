@@ -1,6 +1,7 @@
 package org.soylentsystem
 
 import android.content.Context
+import org.soylentsystem.sqlite.Transaction as SqliteTransaction
 import org.soylentsystem.ormlite.Transaction as OrmLiteTransaction
 import org.soylentsystem.realm.Transaction as RealmTransaction
 
@@ -14,7 +15,7 @@ object AutoLoader {
             }
             catch (ex: ClassNotFoundException) { }
         }
-        throw RuntimeException("orm not found")
+        return Orm.SQLITE
     }
 
     enum class Orm(val klass: String) {
@@ -23,6 +24,9 @@ object AutoLoader {
         },
         REALM("io.realm.Realm") {
             override fun createStrategy(context: Context) = RealmTransaction(context)
+        },
+        SQLITE("") {
+            override fun createStrategy(context: Context) = SqliteTransaction(context)
         };
 
         abstract fun createStrategy(context: Context): Strategy
