@@ -11,6 +11,7 @@ buildscript {
 }
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 repositories {
     jcenter()
@@ -34,4 +35,21 @@ android {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'org.soylentsystem'
+            artifactId 'soylentsystem'
+            version '0.1-SNAPSHOT'
+            artifact source: file("${project.buildDir}/intermediates/bundles/release/classes.jar")
+        }
+    }
+
+    repositories {
+        maven {
+            url "file:${rootDir}/repository"
+        }
+    }
 }
