@@ -25,4 +25,4 @@ build:
     - script:
         name: connectedAndroidTest
         code: |
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTest
+          ./gradlew --full-stacktrace --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTest
