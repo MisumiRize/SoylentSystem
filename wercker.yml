@@ -17,12 +17,12 @@ build:
     - android-sdk-update:
         filter: platform-tools,build-tools-22.0.1,android-22,sysimg-22,extra-android-m2repository,extra-google-m2repository
     - script:
-        name: build and install
+        name: build
         code: |
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
     - setup-android-emulator:
         target: android-22
     - script:
-        name: connectedCheck
+        name: connectedAndroidTest
         code: |
-          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTest
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTest

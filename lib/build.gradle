@@ -7,11 +7,13 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
 }
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
 
 repositories {
     jcenter()
@@ -37,19 +39,58 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId 'org.soylentsystem'
-            artifactId 'soylentsystem'
-            version '0.1-SNAPSHOT'
-            artifact source: file("${project.buildDir}/intermediates/bundles/release/classes.jar")
-        }
-    }
+group = 'org.soylentsystem'
+archivesBaseName = 'soylentsystem'
+version = '0.1-alpha1'
 
-    repositories {
-        maven {
-            url "file:${rootDir}/repository"
-        }
+def properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty('bintray.user')
+    key = properties.getProperty('bintray.key')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'SoylentSystem'
     }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task mainPom << {
+    pom {
+        project {
+            packaging 'aar'
+            artifactId archivesBaseName
+            name 'SoylentSystem'
+            url 'https://github.com/MisumiRize/SoylentSystem'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            developers {
+                developer {
+                    id 'misumirize'
+                    name 'Rize MISUMI'
+                    email 'r@ayase-e.li'
+                }
+            }
+            scm {
+                connection 'https://github.com/MisumiRize/SoylentSystem.git'
+                developerConnection 'https://github.com/MisumiRize/SoylentSystem.git'
+                url 'https://github.com/MisumiRize/SoylentSystem'
+            }
+        }
+    }.writeTo("$buildDir/${archivesBaseName}.pom")
+}
+
+artifacts {
+    archives sourcesJar
+    archives file: file("$buildDir/${archivesBaseName}.pom"), builtBy: mainPom
 }
