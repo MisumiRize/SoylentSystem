@@ -14,6 +14,10 @@ build:
         name: set JVM args
         code: |
           export JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx1024m"
+    - script:
+        name: show subproject tasks
+        code: |
+          ./gradlew :ORMLiteApp:tasks
     - android-sdk-update:
         filter: platform-tools,build-tools-22.0.1,android-22,sysimg-22,extra-android-m2repository,extra-google-m2repository
     - script:
