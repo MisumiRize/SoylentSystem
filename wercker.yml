@@ -10,6 +10,10 @@ build:
           echo $ANDROID_BUILD_TOOLS
           echo $ANDROID_UPDATE_FILTER
           echo $ANDROID_NDK_HOME
+    - script:
+        name: set JVM args
+        code: |
+          export JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx1024m"
     - android-sdk-update:
         filter: platform-tools,build-tools-22.0.1,android-22,sysimg-22,extra-android-m2repository,extra-google-m2repository
     - script:
